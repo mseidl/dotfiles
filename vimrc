@@ -17,7 +17,6 @@ Plugin 'jlanzarotta/bufexplorer'
 Plugin 'dbext.vim'
 call vundle#end()            " required
 
-
 "personal settings
 let mapleader=","
 set encoding=utf-8
@@ -25,11 +24,20 @@ set t_Co=256
 set nocompatible
 syntax on
 filetype on
-filetype indent on
-filetype plugin on
+filetype indent plugin on
 set background=dark
-let g:solarized_termcolors=256
-colorscheme grb256
+colorscheme molokai
+
+"ruby options
+autocmd FileType ruby,eruby call s:ruby_settings()
+function! s:ruby_settings()
+  setlocal tabstop=2 shiftwidth=2 expandtab
+  let g:rubycomplete_buffer_loading     = 1
+  let g:rubycomplete_classes_in_global  = 1
+  let g:rubycomplete_rails              = 1
+endfunction
+
+
 
 "airline options
 let g:airline_powerline_fonts = 1
@@ -45,7 +53,21 @@ endfunction
 autocmd VimEnter * call AirlineInit() 
 set laststatus=2
 let g:airline#extensions#tmuxline#enabled = 1
-let g:airline_theme = 'simple'
+let g:airline_theme = 'molokai'
+
+"autocompletion
+set wildmode=list:longest
+set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=vendor/rails/**
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
 
 "open files in new tabs
 autocmd VimEnter * tab all
